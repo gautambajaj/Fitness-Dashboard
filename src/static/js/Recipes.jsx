@@ -11,25 +11,26 @@ export default class Recipes extends Component {
         this.state = {
           recipes: []
         };
-        this.componentDidMount = this.componentDidMount.bind(this);
     }
 
     componentDidMount() {
-        var recipeAPI_URL = "https://api.edamam.com/search?q=" + "chicken" + 
-                            "&app_id=7ecc621e&app_key=406f850ab1d4aecc95b36d94db6f5329";
+        var API_URL = this.props.url;
+        var dietLabel = this.props.dietLabel;
         $.ajax({
-            url: recipeAPI_URL,
+            url: API_URL,
             data: {
               format: 'json'
             },
             success: (data) => {
                 var filteredData = data['hits'];
-                if(true){
+                if(dietLabel != "none"){
                     filteredData = data['hits'].filter(hit => {
-                        return hit['recipe']['dietLabels'].includes("High-Protein");
+                        return hit['recipe']['dietLabels'].includes(dietLabel);
                     });
                 }
+
                 data = filteredData;
+                var id = 0;
 
                 let recipes = data.map(hit => {
                     var yieldQty = hit['recipe']['yield'];
@@ -41,6 +42,7 @@ export default class Recipes extends Component {
                     });
 
                     var recipe = {
+                        id: id,
                         label: hit['recipe']['label'],
                         image: hit['recipe']['image'],
                         tags: tags,
@@ -48,7 +50,7 @@ export default class Recipes extends Component {
                         calories: caloriesPerServing ,
                         redirect: hit['recipe']['url']
                     }
-
+                    ++id;
                     return recipe;
                 });
 
@@ -57,7 +59,8 @@ export default class Recipes extends Component {
                 });      
             }, 
             error: (error) => { 
-                console.log("Error occurred on get request to recipe API");
+                var msg = "Error occurred on get request to recipe API: " + API_URL;
+                console.log(msg);
             }
         });
     }
@@ -65,8 +68,8 @@ export default class Recipes extends Component {
     render () {
         let recipeCards = this.state.recipes.map(recipe => {
             return (
-                <Col sm="4">
-                  <RecipeCard recipe={recipe} />
+                <Col key={recipe.id} sm="4">
+                  <RecipeCard key={recipe.id} recipe={recipe} />
                 </Col>
             )
         });
