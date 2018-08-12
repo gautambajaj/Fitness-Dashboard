@@ -23,7 +23,7 @@ export default class Recipes extends Component {
             },
             success: (data) => {
                 var filteredData = data['hits'];
-                if(dietLabel != "none"){
+                if(dietLabel != "No Preference"){
                     filteredData = data['hits'].filter(hit => {
                         return hit['recipe']['dietLabels'].includes(dietLabel);
                     });
