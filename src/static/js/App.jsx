@@ -54,28 +54,29 @@ export default class App extends Component {
     render () {
         const querySubmitted = this.state.querySubmitted;
         return(
-            <Container>
-                <Row>
-                <Col sm="12">
+            <div>
+                <Container fluid>
                     <Navbar/>
-                </Col>
-                    <Col md="2">
-                        <Nav/>
-                    </Col>
-                    <Col md="10">
-                    {querySubmitted ? (
-                        <Container fluid>
-                            <Row>
-                                <Recipes dietLabel={this.state.dietLabel} url={this.state.url} handleClick={this.handleClick}/>
-                            </Row>
-                        </Container>
-                    ) : (
-                        <RecipeForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} 
-                                    query={this.state.query} dietLabel={this.state.dietLabel}/>
-                    )}
-                    </Col>
-                </Row>
-            </Container>
+                    <br/>
+                    <Row>
+                        <Col xl="2">
+                            <Nav handleClick={this.handleClick} querySubmitted={this.state.querySubmitted}/>
+                        </Col>
+                        <Col lg="8">
+                            {querySubmitted ? (
+                                <Container fluid>
+                                    <Row>
+                                        <Recipes dietLabel={this.state.dietLabel} url={this.state.url} handleClick={this.handleClick}/>
+                                    </Row>
+                                </Container>
+                            ) : (
+                                <RecipeForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} 
+                                            query={this.state.query} dietLabel={this.state.dietLabel}/>
+                            )}
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
         );
 
     }

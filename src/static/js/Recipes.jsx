@@ -76,26 +76,20 @@ export default class Recipes extends Component {
                       <RecipeCard key={recipe.id} recipe={recipe} />
                     </Col>
                 )
-            });
-            searchButton = (
-                <Button onClick={this.props.handleClick}>Modify Search</Button>
-            );          
+            });        
         } else if(this.state.dataLoaded){
             console.log('no results');
             recipeCards = (
                 <Alert color="danger">
                     No results found. Please try again.
                 </Alert>
-            );
+            );  
         }
 
         return (
             <Container fluid>
                 <Row>
                     {recipeCards}                        
-                </Row>
-                <Row>
-                    {searchButton}
                 </Row>
             </Container>
         );

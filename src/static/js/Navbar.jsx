@@ -38,7 +38,7 @@ export default class MyNavbar extends React.Component {
                 <NavLink href="/components/"><h5>Home</h5></NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap"><h5>Github</h5></NavLink>
+                <NavLink href="https://github.com/gautambajaj/Fitness-Dashboard"><h5>Github</h5></NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="https://github.com/reactstrap/reactstrap"><h5>Feedback</h5></NavLink>
