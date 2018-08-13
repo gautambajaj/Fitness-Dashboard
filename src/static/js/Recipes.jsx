@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 import RecipeCard from "./RecipeCard";
 
 var $ = require('jquery');
@@ -77,6 +77,9 @@ export default class Recipes extends Component {
             <Container fluid>
                 <Row>
                     {recipeCards}                        
+                </Row>
+                <Row>
+                    <Button onClick={this.props.handleClick}>Modify Search</Button>
                 </Row>
             </Container>
         );

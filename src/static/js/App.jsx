@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Container, Row, Col } from 'reactstrap';
 import Recipes from "./Recipes";
 import RecipeForm from "./RecipeForm";
+import Navbar from "./Navbar"
 
 var $ = require('jquery');
 
@@ -17,6 +18,7 @@ export default class App extends Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     handleChange(event) {
@@ -39,22 +41,30 @@ export default class App extends Component {
         })
     }
 
-    render () {
-        if(this.state.querySubmitted){
-            return(
-                <Container fluid>
-                    <Row>
-                        <Recipes dietLabel={this.state.dietLabel} url={this.state.url}/>
-                    </Row>
-                </Container>
-            );
+    handleClick(event){
+        event.preventDefault();
+        this.setState({
+            querySubmitted: false
+        });     
+    }
 
-        } else{
-            return (
-                <RecipeForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} 
-                            query={this.state.query} dietLabel={this.state.dietLabel}/>
-            );
-        }
+    render () {
+        const querySubmitted = this.state.querySubmitted;
+        return(
+            <div>
+                <Navbar/>
+                {querySubmitted ? (
+                    <Container fluid>
+                        <Row>
+                            <Recipes dietLabel={this.state.dietLabel} url={this.state.url} handleClick={this.handleClick}/>
+                        </Row>
+                    </Container>
+                ) : (
+                    <RecipeForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} 
+                                query={this.state.query} dietLabel={this.state.dietLabel}/>
+                )}
+            </div>
+        );
 
     }
 }
