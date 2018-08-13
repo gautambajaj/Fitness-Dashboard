@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col, Button, Alert } from 'reactstrap';
 import RecipeCard from "./RecipeCard";
 
 var $ = require('jquery');
@@ -9,7 +9,8 @@ export default class Recipes extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          recipes: []
+          recipes: [],
+          dataLoaded: false
         };
     }
 
@@ -55,7 +56,8 @@ export default class Recipes extends Component {
                 });
 
                 this.setState({
-                    recipes: recipes
+                    recipes: recipes,
+                    dataLoaded: true
                 });      
             }, 
             error: (error) => { 
@@ -66,20 +68,34 @@ export default class Recipes extends Component {
     }
 
     render () {
-        let recipeCards = this.state.recipes.map(recipe => {
-            return (
-                <Col key={recipe.id} sm="4">
-                  <RecipeCard key={recipe.id} recipe={recipe} />
-                </Col>
-            )
-        });
+        let recipeCards, searchButton;
+        if(this.state.dataLoaded && this.state.recipes.length > 0){
+            recipeCards = this.state.recipes.map(recipe => {
+                return (
+                    <Col key={recipe.id} sm="4">
+                      <RecipeCard key={recipe.id} recipe={recipe} />
+                    </Col>
+                )
+            });
+            searchButton = (
+                <Button onClick={this.props.handleClick}>Modify Search</Button>
+            );          
+        } else if(this.state.dataLoaded){
+            console.log('no results');
+            recipeCards = (
+                <Alert color="danger">
+                    No results found. Please try again.
+                </Alert>
+            );
+        }
+
         return (
             <Container fluid>
                 <Row>
                     {recipeCards}                        
                 </Row>
                 <Row>
-                    <Button onClick={this.props.handleClick}>Modify Search</Button>
+                    {searchButton}
                 </Row>
             </Container>
         );

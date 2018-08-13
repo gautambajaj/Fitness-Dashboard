@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import Recipes from "./Recipes";
 import RecipeForm from "./RecipeForm";
 import Navbar from "./Navbar"
+import Nav from "./Nav"
 
 var $ = require('jquery');
 
@@ -33,7 +34,8 @@ export default class App extends Component {
 
     handleSubmit(event){
         event.preventDefault();
-        var url = "https://api.edamam.com/search?q=" + this.state.query + "&app_id=7ecc621e&app_key=406f850ab1d4aecc95b36d94db6f5329";
+        var processedQuery = encodeURIComponent((this.state.query).trim());
+        var url = "https://api.edamam.com/search?q=" + processedQuery + "&app_id=7ecc621e&app_key=406f850ab1d4aecc95b36d94db6f5329";
         console.log(url);
         this.setState({
             querySubmitted: true,
@@ -48,22 +50,32 @@ export default class App extends Component {
         });     
     }
 
+
     render () {
         const querySubmitted = this.state.querySubmitted;
         return(
-            <div>
-                <Navbar/>
-                {querySubmitted ? (
-                    <Container fluid>
-                        <Row>
-                            <Recipes dietLabel={this.state.dietLabel} url={this.state.url} handleClick={this.handleClick}/>
-                        </Row>
-                    </Container>
-                ) : (
-                    <RecipeForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} 
-                                query={this.state.query} dietLabel={this.state.dietLabel}/>
-                )}
-            </div>
+            <Container>
+                <Row>
+                <Col sm="12">
+                    <Navbar/>
+                </Col>
+                    <Col md="2">
+                        <Nav/>
+                    </Col>
+                    <Col md="10">
+                    {querySubmitted ? (
+                        <Container fluid>
+                            <Row>
+                                <Recipes dietLabel={this.state.dietLabel} url={this.state.url} handleClick={this.handleClick}/>
+                            </Row>
+                        </Container>
+                    ) : (
+                        <RecipeForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} 
+                                    query={this.state.query} dietLabel={this.state.dietLabel}/>
+                    )}
+                    </Col>
+                </Row>
+            </Container>
         );
 
     }
