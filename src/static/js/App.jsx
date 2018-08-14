@@ -29,21 +29,25 @@ export default class App extends Component {
 
     handleQueryResponse(querySuccessful){
         if(querySuccessful){
-            console.log('query success');
             this.setState({
                 querySuccessful: true
             });
         } else{
-            console.log('query failed');
             this.setState({
                 querySuccessful: false
             });
         }
     }
 
-    handlePage(event,pageNumber){
-        event.preventDefault();
-        console.log('handling page ' + pageNumber);
+    handlePage(pageNumber){
+        var fromIndex = ((pageNumber-1)*12);
+        var toIndex = (pageNumber*12);
+
+        var url = this.getURL(fromIndex, toIndex);
+        console.log(url);
+        this.setState({
+            url: url
+        });
     }   
 
     handleChange(event) {

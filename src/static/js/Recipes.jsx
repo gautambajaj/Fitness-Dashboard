@@ -4,7 +4,6 @@ import RecipeCard from "./RecipeCard";
 
 var $ = require('jquery');
 
-
 export default class Recipes extends Component {
     constructor(props) {
         super(props);
