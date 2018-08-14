@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Button, Alert } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 import RecipeCard from "./RecipeCard";
 
 var $ = require('jquery');
@@ -10,11 +10,14 @@ export default class Recipes extends Component {
         super(props);
         this.state = {
           recipes: [],
-          dataLoaded: false
+          dataLoaded: false,
+          initialRender: true
         };
+
+        this.getRecipes = this.getRecipes.bind(this);
     }
 
-    componentDidMount() {
+    getRecipes(isInitialRequest){
         var API_URL = this.props.url;
         var dietLabel = this.props.dietLabel;
         $.ajax({
@@ -29,8 +32,8 @@ export default class Recipes extends Component {
                         return hit['recipe']['dietLabels'].includes(dietLabel);
                     });
                 }
-
                 data = filteredData;
+
                 var id = 0;
 
                 let recipes = data.map(hit => {
@@ -58,17 +61,33 @@ export default class Recipes extends Component {
                 this.setState({
                     recipes: recipes,
                     dataLoaded: true
-                });      
+                });
+                if(isInitialRequest){
+                    this.props.handleQueryResponse(true);                          
+                }
             }, 
             error: (error) => { 
                 var msg = "Error occurred on get request to recipe API: " + API_URL;
                 console.log(msg);
+                if(isInitialRequest){
+                    this.props.handleQueryResponse(false);                          
+                }      
             }
         });
     }
 
+    componentDidMount() {
+        this.getRecipes(true);
+    }
+
+    componentDidUpdate(prevProps,prevState,snapshot){
+        if(this.props.url != prevProps.url){
+            this.getRecipes(false);
+        }
+    }
+
     render () {
-        let recipeCards, searchButton;
+        let recipeCards;
         if(this.state.dataLoaded && this.state.recipes.length > 0){
             recipeCards = this.state.recipes.map(recipe => {
                 return (
@@ -79,11 +98,6 @@ export default class Recipes extends Component {
             });        
         } else if(this.state.dataLoaded){
             console.log('no results');
-            recipeCards = (
-                <Alert color="danger">
-                    No results found. Please try again.
-                </Alert>
-            );  
         }
 
         return (

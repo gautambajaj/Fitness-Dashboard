@@ -11,7 +11,7 @@ export default class RecipeCard extends Component{
     render () {
         return (
           <div>
-            <Card>
+            <Card onClick = {() => window.open(this.props.recipe.redirect, '_blank')}>
               <CardImg top width="100" src={this.props.recipe.image} alt="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
               <CardBody>
                 <CardTitle>{this.props.recipe.label}</CardTitle>
@@ -23,7 +23,9 @@ export default class RecipeCard extends Component{
                     <br/>
                     Calories per Serving: {this.props.recipe.calories}
                 </CardText>
-                <Button onClick = {() => window.open(this.props.recipe.redirect, '_blank')}> View Recipe </Button>
+                <div className="text-center">
+                <Button block outline onClick = {() => window.open(this.props.recipe.redirect, '_blank')}> View Recipe </Button>
+                </div>
               </CardBody>
             </Card>
           </div>
