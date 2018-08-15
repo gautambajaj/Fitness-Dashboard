@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Alert, Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import Recipes from "./Recipes";
 import RecipeForm from "./RecipeForm";
 import Navbar from "./Navbar"
@@ -13,7 +13,7 @@ export default class App extends Component {
         super(props);
         this.state = {
             querySubmitted: false,
-            querySuccessful: false,
+            querySuccessful: 'N/A',
             url: '',
             query: '',
             dietLabel: 'No Preference',
@@ -37,7 +37,8 @@ export default class App extends Component {
             });
         } else{
             this.setState({
-                querySuccessful: false
+                querySuccessful: false,
+                resultCount: 0
             });
         }
     }
@@ -98,6 +99,31 @@ export default class App extends Component {
     render () {
         const querySubmitted = this.state.querySubmitted;
         const querySuccessful = this.state.querySuccessful;
+
+        let recipeSearch = () => {
+            if(querySubmitted){
+                return(
+                    <Container fluid>
+                        <Row>
+                            <Recipes dietLabel={this.state.dietLabel} url={this.state.url} 
+                                     handleQueryResponse={this.handleQueryResponse}
+                                     pageNumber={this.state.pageNumber} handleClick={this.handleClick}/>
+                        </Row>
+                    </Container>
+                );
+            } else{
+                return(
+                    <Container>
+                        <h4> Search for Recipes </h4>
+                        <hr/>
+                        <RecipeForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} 
+                                    query={this.state.query} dietLabel={this.state.dietLabel}
+                                    calorieRange={this.state.calorieRange}/>
+                    </Container>
+                );
+            }
+        };
+
         return(
             <div>
                 <Container fluid>
@@ -110,26 +136,7 @@ export default class App extends Component {
                                  pageNumber={this.state.pageNumber}/>
                         </Col>
                         <Col lg="8">
-                            {querySubmitted ? (
-                                <Container fluid>
-                                    <Row>
-                                        <Recipes dietLabel={this.state.dietLabel} url={this.state.url} 
-                                                 handleQueryResponse={this.handleQueryResponse}
-                                                 pageNumber={this.state.pageNumber}/>
-                                    </Row>
-                                </Container>
-                            ) : (
-                                <Container>
-                                    <h4> Search for Recipes </h4>
-                                    <hr/>
-                                    <RecipeForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} 
-                                                query={this.state.query} dietLabel={this.state.dietLabel}
-                                                calorieRange={this.state.calorieRange}/>
-                                    <Alert color="danger">
-                                        No results found. Please try again.
-                                    </Alert>
-                                </Container>
-                            )}
+                            {recipeSearch()}
                         </Col>
                     </Row>
                 </Container>

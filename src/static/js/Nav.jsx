@@ -8,7 +8,7 @@ export default class Example extends React.Component {
 	var style = {
         marginLeft: "4%"
     }
-	if(this.props.querySuccessful){
+	if(this.props.querySuccessful && this.props.querySuccessful != 'N/A'){
 		searchActions = (
 		  <div>
 		  	<div className="text-center">

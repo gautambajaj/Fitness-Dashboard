@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Alert, Container, Row, Col, Button } from 'reactstrap';
 import RecipeCard from "./RecipeCard";
 
 var $ = require('jquery');
@@ -62,8 +62,10 @@ export default class Recipes extends Component {
                     recipes: recipes,
                     dataLoaded: true
                 });
-                if(isInitialRequest){
+                if(isInitialRequest && filteredData.length > 0){
                     this.props.handleQueryResponse(true,filteredData.length);                          
+                } else{
+                    this.props.handleQueryResponse(false,filteredData.length);                                              
                 }
             }, 
             error: (error) => { 
@@ -97,6 +99,17 @@ export default class Recipes extends Component {
             });        
         } else if(this.state.dataLoaded){
             console.log('no results');
+            return(
+                <Container>
+                    <Alert color="danger">
+                        No results found. Please try again.
+                    </Alert>  
+                    <br/>
+                    <div className="text-center">
+                        <Button color="info" size="lg" onClick={this.props.handleClick}>Modify Search</Button>
+                    </div>
+                </Container>
+            );
         }
 
         return (
