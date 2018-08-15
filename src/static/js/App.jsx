@@ -17,7 +17,9 @@ export default class App extends Component {
             url: '',
             query: '',
             dietLabel: 'No Preference',
-            calorieRange: 'No Preference'
+            calorieRange: 'No Preference',
+            resultCount: 0,
+            pageNumber: 0            
         };
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this);
@@ -27,10 +29,11 @@ export default class App extends Component {
         this.getURL = this.getURL.bind(this);
     }
 
-    handleQueryResponse(querySuccessful){
+    handleQueryResponse(querySuccessful,count){
         if(querySuccessful){
             this.setState({
-                querySuccessful: true
+                querySuccessful: true,
+                resultCount: count
             });
         } else{
             this.setState({
@@ -40,13 +43,8 @@ export default class App extends Component {
     }
 
     handlePage(pageNumber){
-        var fromIndex = ((pageNumber-1)*12);
-        var toIndex = (pageNumber*12);
-
-        var url = this.getURL(fromIndex, toIndex);
-        console.log(url);
         this.setState({
-            url: url
+            pageNumber: pageNumber
         });
     }   
 
@@ -62,11 +60,12 @@ export default class App extends Component {
 
     handleSubmit(event){
         event.preventDefault();
-        var url = this.getURL(0,12);
+        var url = this.getURL(0,60);
         console.log(url);
         this.setState({
             querySubmitted: true,
-            url: url
+            url: url,
+            pageNumber: 1
         })
     }
 
@@ -106,7 +105,7 @@ export default class App extends Component {
                     <Row>
                         <Col xl="2">
                             <Nav handleClick={this.handleClick} querySuccessful={this.state.querySuccessful}
-                                 handlePage={this.handlePage}/>
+                                 handlePage={this.handlePage} resultCount={this.state.resultCount}/>
                         </Col>
                         <Col lg="8">
                             {querySubmitted ? (
@@ -114,7 +113,7 @@ export default class App extends Component {
                                     <Row>
                                         <Recipes dietLabel={this.state.dietLabel} url={this.state.url} 
                                                  handleQueryResponse={this.handleQueryResponse}
-                                                 handleClick={this.handleClick} />
+                                                 handleClick={this.handleClick}  pageNumber={this.state.pageNumber}/>
                                     </Row>
                                 </Container>
                             ) : (

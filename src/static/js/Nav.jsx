@@ -10,8 +10,10 @@ export default class Example extends React.Component {
     }
 	if(this.props.querySuccessful){
 		searchActions = (
-		  <div className="center-block">
-	      	<RecipePagination handlePage={this.props.handlePage}/>
+		  <div>
+		  	<div className="text-center">
+	      		<RecipePagination handlePage={this.props.handlePage} resultCount={this.props.resultCount}/>
+	      	</div>
 	      	<Button style={style}color="info" size="lg" block onClick={this.props.handleClick}>Modify Search</Button>
 		  </div>
 		)

@@ -4,6 +4,7 @@ import RecipeCard from "./RecipeCard";
 
 var $ = require('jquery');
 
+
 export default class Recipes extends Component {
     constructor(props) {
         super(props);
@@ -62,14 +63,14 @@ export default class Recipes extends Component {
                     dataLoaded: true
                 });
                 if(isInitialRequest){
-                    this.props.handleQueryResponse(true);                          
+                    this.props.handleQueryResponse(true,filteredData.length);                          
                 }
             }, 
             error: (error) => { 
                 var msg = "Error occurred on get request to recipe API: " + API_URL;
                 console.log(msg);
                 if(isInitialRequest){
-                    this.props.handleQueryResponse(false);                          
+                    this.props.handleQueryResponse(false,filteredData.length);                          
                 }      
             }
         });
@@ -79,16 +80,15 @@ export default class Recipes extends Component {
         this.getRecipes(true);
     }
 
-    componentDidUpdate(prevProps,prevState,snapshot){
-        if(this.props.url != prevProps.url){
-            this.getRecipes(false);
-        }
-    }
 
     render () {
+        var fromIndex = ((this.props.pageNumber-1)*12);
+        var toIndex = (this.props.pageNumber*12);
+        var recipes = this.state.recipes.slice(fromIndex,toIndex)
+
         let recipeCards;
         if(this.state.dataLoaded && this.state.recipes.length > 0){
-            recipeCards = this.state.recipes.map(recipe => {
+            recipeCards = recipes.map(recipe => {
                 return (
                     <Col key={recipe.id} sm="4">
                       <RecipeCard key={recipe.id} recipe={recipe} />

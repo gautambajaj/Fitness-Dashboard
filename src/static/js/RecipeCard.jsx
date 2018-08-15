@@ -24,7 +24,7 @@ export default class RecipeCard extends Component{
                     Calories per Serving: {this.props.recipe.calories}
                 </CardText>
                 <div className="text-center">
-                <Button block outline onClick = {() => window.open(this.props.recipe.redirect, '_blank')}> View Recipe </Button>
+                  <Button block outline onClick = {() => window.open(this.props.recipe.redirect, '_blank')}> View Recipe </Button>
                 </div>
               </CardBody>
             </Card>

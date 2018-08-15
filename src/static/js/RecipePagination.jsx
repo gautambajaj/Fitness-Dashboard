@@ -7,12 +7,24 @@ export default class Example extends React.Component {
       super(props);
   }
 
+  componentDidUpdate(){
+    currPage = 1;
+  }
+
   render() {
     let getPaginationItem = (itemNumber) => {
       if(itemNumber == currPage){
         return (
           <PaginationItem active>
             <PaginationLink href="#" onClick={(event) => {this.props.handlePage(itemNumber); currPage=itemNumber}}>
+            {itemNumber}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      } else if(this.props.resultCount < ((itemNumber-1))*12){
+        return (
+          <PaginationItem disabled>
+            <PaginationLink href="#">
             {itemNumber}
             </PaginationLink>
           </PaginationItem>
@@ -38,14 +50,14 @@ export default class Example extends React.Component {
       } else{
         return(
           <PaginationItem>
-            <PaginationLink previous href="#" onClick={(event) => {this.props.handlePage(currPage-1); --currPage}}/>
+            <PaginationLink previous href="#" onClick={(event) => {this.props.handlePage(currPage-1); --currPage;}}/>
           </PaginationItem>
         );
       }
     };
 
     let getNextPagination = () => {
-      if(currPage == 5){
+      if(currPage == 5 || this.props.resultCount < ((currPage))*12){
         return (
           <PaginationItem disabled>
             <PaginationLink next href="#" />
