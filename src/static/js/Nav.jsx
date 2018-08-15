@@ -12,7 +12,8 @@ export default class Example extends React.Component {
 		searchActions = (
 		  <div>
 		  	<div className="text-center">
-	      		<RecipePagination handlePage={this.props.handlePage} resultCount={this.props.resultCount}/>
+	      		<RecipePagination handlePage={this.props.handlePage} resultCount={this.props.resultCount}
+	      						  pageNumber={this.props.pageNumber}/>
 	      	</div>
 	      	<Button style={style}color="info" size="lg" block onClick={this.props.handleClick}>Modify Search</Button>
 		  </div>

@@ -73,7 +73,8 @@ export default class App extends Component {
         event.preventDefault();
         this.setState({
             querySubmitted: false,
-            querySuccessful: false
+            querySuccessful: false,
+            pageNumber: 0
         });     
     }
 
@@ -105,7 +106,8 @@ export default class App extends Component {
                     <Row>
                         <Col xl="2">
                             <Nav handleClick={this.handleClick} querySuccessful={this.state.querySuccessful}
-                                 handlePage={this.handlePage} resultCount={this.state.resultCount}/>
+                                 handlePage={this.handlePage} resultCount={this.state.resultCount}
+                                 pageNumber={this.state.pageNumber}/>
                         </Col>
                         <Col lg="8">
                             {querySubmitted ? (
@@ -113,7 +115,7 @@ export default class App extends Component {
                                     <Row>
                                         <Recipes dietLabel={this.state.dietLabel} url={this.state.url} 
                                                  handleQueryResponse={this.handleQueryResponse}
-                                                 handleClick={this.handleClick}  pageNumber={this.state.pageNumber}/>
+                                                 pageNumber={this.state.pageNumber}/>
                                     </Row>
                                 </Container>
                             ) : (

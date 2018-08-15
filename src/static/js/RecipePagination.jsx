@@ -1,22 +1,19 @@
 import React from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
-var currPage = 1;
 export default class Example extends React.Component {
   constructor(props) {
       super(props);
   }
 
-  componentDidUpdate(){
-    currPage = 1;
-  }
-
   render() {
+    var currPage = this.props.pageNumber;
+    console.log(currPage);
     let getPaginationItem = (itemNumber) => {
       if(itemNumber == currPage){
         return (
           <PaginationItem active>
-            <PaginationLink href="#" onClick={(event) => {this.props.handlePage(itemNumber); currPage=itemNumber}}>
+            <PaginationLink href="#" onClick={(event) => {this.props.handlePage(itemNumber)}}>
             {itemNumber}
             </PaginationLink>
           </PaginationItem>
@@ -32,7 +29,7 @@ export default class Example extends React.Component {
       } else{
         return(
           <PaginationItem>
-            <PaginationLink href="#" onClick={(event) => {this.props.handlePage(itemNumber); currPage=itemNumber}}>
+            <PaginationLink href="#" onClick={(event) => {this.props.handlePage(itemNumber)}}>
             {itemNumber}
             </PaginationLink>
           </PaginationItem>
@@ -50,7 +47,7 @@ export default class Example extends React.Component {
       } else{
         return(
           <PaginationItem>
-            <PaginationLink previous href="#" onClick={(event) => {this.props.handlePage(currPage-1); --currPage;}}/>
+            <PaginationLink previous href="#" onClick={(event) => {this.props.handlePage(currPage-1)}}/>
           </PaginationItem>
         );
       }
@@ -66,7 +63,7 @@ export default class Example extends React.Component {
       } else{
         return(
           <PaginationItem>
-            <PaginationLink next href="#" onClick={(event) => {this.props.handlePage(currPage+1); ++currPage}}/>
+            <PaginationLink next href="#" onClick={(event) => {this.props.handlePage(currPage+1)}}/>
           </PaginationItem>
         );
       }
