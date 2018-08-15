@@ -6,6 +6,7 @@ import Navbar from "./Navbar"
 import Nav from "./Nav"
 
 var $ = require('jquery');
+import Image from '../images/foodiebackground2.jpg'; // Import using relative path
 
 
 export default class App extends Component {
@@ -123,7 +124,14 @@ export default class App extends Component {
                 );
             }
         };
-
+        var imgsrc = 'url(/dist/' + Image + ')'; 
+        const styles = {
+            minHeight: "100%",
+            backgroundImage: (imgsrc),
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "cover"
+        };
         return(
             <div>
                 <Container fluid>
